@@ -1,4 +1,13 @@
+/*
+Mandatory: an open collector / open drain interface to the 3rd wire of the battery contact. Ideally use an optocoupler (easier to interface)
+Optional: To monitor the voltage add a voltage divider set to a ratio of 7.401 (42v in 5v out) and connect it to the A0 pin of the Arduino.
 
+Edit line starting with "b5t = ..." to match your voltage divider. calculate or test to find out ADC values.
+Change line starting with "if(index > 20)" to a value you want. 20 means it averages the current voltage 20 times to smooth it out. 20 is 5 seconds.
+Remove line starting with "if(b5 <= 10 ||..." if you dont want your indicator to stay at 10% even if its lower. this prevent turning the motor off when voltage drops driving up a hill.
+ 
+After that, Flash it in Arduino IDE
+*/
 //255 255 14 6 26 25 1 110 2 199 42 248 1 24 17 192 0 110 7
 int b1=255;
 int b2=255;
@@ -19,6 +28,7 @@ int b16=240; //unusedled indicator 128-192-240-255
 int b17=0; // 0-7 prob. power
 int b18=110; // 0-255
 int b19;
+// or in alternative: int message[] = {255, 255, 14, 6, 26, 25, 1, 110, 2, 199, 42, 248, 1, 24, 17, 192, 0, 110, 7};
 
 int b5t = 0;
 int b5t2 = 0;
@@ -80,5 +90,5 @@ void loop(){
   Serial.write(b17);
   Serial.write(b18);
   Serial.write(b19);
-  
+  // or in alternative: for (int i = 0; i <19; i++) {Serial.write(message[i]);}
 }
